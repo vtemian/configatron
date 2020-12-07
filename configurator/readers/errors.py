@@ -1,0 +1,2 @@
+class InvalidSource(BaseException):
+    pass
