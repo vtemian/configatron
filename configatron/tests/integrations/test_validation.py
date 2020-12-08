@@ -194,6 +194,27 @@ a = "quotes\""
 """,
             'Invalid property: a = "quotes""',
         ),
+        (
+            """
+[group]
+a< = "quotes"
+""",
+            'Invalid property: a< = "quotes"',
+        ),
+        (
+            """
+[group]
+a<> = "quotes"
+""",
+            'Invalid property: a<> = "quotes"',
+        ),
+        (
+                """
+[group]
+a> = "quotes"
+""",
+                'Invalid property: a> = "quotes"',
+        ),
     ],
 )
 def test_invalid_property_syntax(fixture, error):

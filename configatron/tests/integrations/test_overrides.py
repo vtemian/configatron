@@ -9,32 +9,30 @@ from configatron import Configatron
     "fixture, expected",
     [
         (
-                """
+            """
     [ftp]   
     flag = yes
     flag<production> = no
     """,
-                False,
+            False,
         ),
-
         (
-                """
+            """
     [ftp]   
     flag = yes
     flag<production> = yes
     flag<staging> = no
     """,
-                False,
+            False,
         ),
-
         (
-                """
+            """
     [ftp]   
     flag = yes
     flag<development> = no
     flag<testing> = no
     """,
-                True,
+            True,
         ),
     ],
 )
