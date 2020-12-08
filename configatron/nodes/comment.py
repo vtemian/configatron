@@ -1,9 +1,16 @@
 import re
 
+from .base import Node
 
-class Comment:
+
+class Comment(Node):
+    """
+    starts with
+                new line
+                  or
+             any number spaces
+                    followed by `;` and any character
+    end
+    """
+
     REGEX = re.compile("^(\n)|(\s*(;.*)?)$")
-
-    @classmethod
-    def is_valid(cls, line):
-        return cls.REGEX.match(line) is not None

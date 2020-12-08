@@ -48,7 +48,7 @@ The same logic occurs if the group or the property is considered expired.
  - [ ] documentation
    - [ ] drawing scheme
    - [ ] more details on readme
-   - [ ] code comments
+   - [x] code comments
  - [ ] tests
    - [x] makefile
    - [x] ci/cd

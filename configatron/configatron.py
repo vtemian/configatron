@@ -6,7 +6,10 @@ from .nodes.group import Group
 from .utils import EmptyConfig
 
 
-DEFAULT_CACHE_OPTIONS = {"size": 100, "lifespan": 10}
+DEFAULT_CACHE_OPTIONS = {
+    "size": 10000,  # number of items in cache, default 10 000 items
+    "lifespan": 60 * 60,  # seconds for each item in cache, default 1h
+}
 
 
 class Configatron:
@@ -29,6 +32,17 @@ class Configatron:
             self.index.build(True)
 
     def get(self, group_name: str) -> Union[Group, EmptyConfig]:
+        """
+        Return a configuration group.
+
+        Search in the local LRU cache for it. If missing, try to retrieve it from the index.
+        Re-index if the group was updated offline or if the group is not in the index.
+        If found, update cache. Otherwise, return an EmptyConfig.
+
+        :param group_name:
+        :return: Group or EmptyConfig
+        """
+
         # Get group from cache. LRU also handles expired items.
         group = self.lru.get(group_name)  # type: Optional[Group]
         if group:

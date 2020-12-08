@@ -51,5 +51,12 @@ class Index:
 
         self.source_cache_key = os.stat(self.source).st_mtime
 
-    def get(self, item: str) -> Optional[Group]:
-        return self.groups_index.get(item)
+    def get(self, group_name: str) -> Optional[Group]:
+        """
+        Get a group from index
+
+        :param group_name:
+        :return: Group or None
+        """
+
+        return self.groups_index.get(group_name)
