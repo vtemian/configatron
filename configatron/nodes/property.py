@@ -10,6 +10,9 @@ def string(value: str) -> Optional[str]:
     Check if the value is a string.
     """
 
+    if not isinstance(value, str):
+        return
+
     if all([value.startswith('"'), value.endswith('"'), '"' not in value[1:-1] or '\\"' in value[1:-1]]):
         return value[1:-1]
 
@@ -21,6 +24,9 @@ def path(value: str) -> Optional[str]:
     Check if the current value is a path. Paths need to be absolute
     """
 
+    if not isinstance(value, str):
+        return
+
     if len(value) > 0 and value[0] == "/":
         return os.path.abspath(value)
 
@@ -31,6 +37,9 @@ def number(value: str) -> Union[int, float, None]:
     """
     Check if the current number is an int or float.
     """
+
+    if not isinstance(value, str):
+        return
 
     if value.lstrip("-").isdigit():
         return int(value)
@@ -48,6 +57,9 @@ def boolean(value: str) -> Optional[bool]:
         false: no, false, 0
     """
 
+    if not isinstance(value, str):
+        return
+
     if value in {"yes", "no", "true", "false", "0", "1"}:
         return value in {"yes", "true", "1"}
 
@@ -58,6 +70,9 @@ def array(value: str) -> Optional[List[any]]:
     """
     Check if the current value is an array.
     """
+
+    if not isinstance(value, str):
+        return
 
     if "," in value and not value.startswith('"') and not value.endswith('"'):
         return value.split(",")
