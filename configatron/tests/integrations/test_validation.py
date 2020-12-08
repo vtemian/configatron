@@ -209,11 +209,11 @@ a<> = "quotes"
             'Invalid property: a<> = "quotes"',
         ),
         (
-                """
+            """
 [group]
 a> = "quotes"
 """,
-                'Invalid property: a> = "quotes"',
+            'Invalid property: a> = "quotes"',
         ),
     ],
 )
