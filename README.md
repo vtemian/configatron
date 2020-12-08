@@ -44,12 +44,17 @@ The same logic occurs if the group or the property is considered expired.
 # TODO:
  - [x] multiple groups with the same name, throw exception
  - [x] invalid syntax should throw exception 
- - [ ] implement overrides
+ - [x] implement overrides
  - [ ] documentation
+   - [ ] drawing scheme
+   - [ ] more details on readme
+   - [ ] code comments
  - [ ] tests
    - [x] makefile
-   - [ ] ci/cd
+   - [x] ci/cd
    - [x] check formatting
    - [x] invalid syntax
    - [x] valid syntax
+   - [ ] unit tests
+   - [ ] performance tests
    - [ ] overrides

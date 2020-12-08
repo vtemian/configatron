@@ -1,4 +1,5 @@
 import hashlib
+from typing import List
 
 from configatron.errors import ValidationError
 from configatron.nodes.comment import Comment
@@ -7,8 +8,9 @@ from configatron.nodes.property import Property
 
 
 class Scanner:
-    def __init__(self, reader):
+    def __init__(self, reader, overrides: List[str] = None):
         self.reader = reader
+        self.overrides = overrides
 
     def groups(self, validate: bool = True):
         current_group = None
@@ -18,7 +20,7 @@ class Scanner:
                 if current_group:
                     yield current_group
 
-                current_group = Group.parse(self, line, start + len(line))
+                current_group = Group.parse(self, line, start + len(line), self.overrides)
 
             elif validate:
                 if "=" in line:

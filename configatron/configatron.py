@@ -1,4 +1,4 @@
-from typing import Dict, Union
+from typing import Dict, Union, List
 
 from .index import Index
 from .lru import LRUCache
@@ -10,8 +10,13 @@ DEFAULT_CACHE_OPTIONS = {"size": 100, "lifespan": 10}
 
 
 class Configatron:
-    def __init__(self, source: str, cache_options: Dict[str, str] = None):
-        self.index = Index(source)
+    def __init__(
+        self, source: str, overrides: List[str] = None, cache_options: Dict[str, str] = None, validate: bool = True
+    ):
+        if overrides:
+            overrides = overrides[::-1]
+
+        self.index = Index(source, overrides)
 
         if cache_options is None:
             cache_options = DEFAULT_CACHE_OPTIONS
@@ -20,11 +25,12 @@ class Configatron:
         self.lru = LRUCache(self.cache_options["size"], self.cache_options["lifespan"])
 
         # build the initial index and validate the config as well
-        self.index.build(True)
+        if validate:
+            self.index.build(True)
 
     def get(self, group_name: str) -> Union[Group, EmptyConfig]:
         # Get group from cache. LRU also handles expired items.
-        group = self.lru.get((group_name,))  # type: Optional[Group]
+        group = self.lru.get(group_name)  # type: Optional[Group]
         if group:
             return group
 
@@ -41,6 +47,6 @@ class Configatron:
             if not group:
                 return EmptyConfig()
 
-        self.lru.put((group.name,), group)
+        self.lru.put(group.name, group)
 
         return group

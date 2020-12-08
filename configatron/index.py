@@ -1,6 +1,6 @@
 import os
 import logging
-from typing import Optional
+from typing import Optional, List
 
 from configatron.errors import ValidationError
 from configatron.nodes.group import Group
@@ -9,7 +9,7 @@ from configatron.scanner import Scanner
 
 
 class Index:
-    def __init__(self, source: str):
+    def __init__(self, source: str, overrides: List[str] = None):
         # Config source, filepath.
         self.source = source
 
@@ -19,7 +19,7 @@ class Index:
         # Current groups index. It maps the group's name to it's (start byte, end byte, content sha)
         self.groups_index = {}
 
-        self.scanner = Scanner(Reader(source))
+        self.scanner = Scanner(Reader(source), overrides)
 
     def _should_index(self):
         """

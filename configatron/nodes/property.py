@@ -44,11 +44,14 @@ properties = [array, boolean, number, path, string]
 
 
 class Property:
-    REGEX = re.compile('^\s*(?P<name>[a-zA-Z_<>-]*)\s*=\s*(?P<value>[a-zA-Z0-9-/,\."]*)\s*(;.*)?$')
+    REGEX = re.compile(
+        '^\s*(?P<name>[a-zA-Z_-]*)(<(?P<override>[a-zA-Z_-]*)>)?\s*=\s*(?P<value>[a-zA-Z0-9-/,\."]*)\s*(;.*)?$'
+    )
 
-    def __init__(self, name: str, value: str):
+    def __init__(self, name: str, value: str, override: str = None):
         self.name = name
         self.value = value
+        self.override = override
 
     @classmethod
     def parse(cls, line: str):
@@ -59,7 +62,7 @@ class Property:
         for kind in properties:
             value = kind(match.group("value"))
             if value is not None:
-                return cls(match.group("name"), value)
+                return cls(match.group("name"), value, match.group("override"))
 
     @classmethod
     def is_valid(cls, line):
