@@ -114,10 +114,20 @@ We just need to adapt the scanner and for each node, describe how it should be p
 Right now, each element knows how to build itself. It does that by defining two methods (`is_valid` and `parse`) and
 defining a regex used to check if we can build the element from the current line.
 
-### Testing
+### Code quality
+
+#### Testing
 
 Having complex logic for indexing, caching and parsing, I though that the safest way to test it would be in integration.
 For that, the majority of test cases are parsing and indexing config files, written in temporary files.
+
+#### Style
+
+The codebase is format using `black`, documented and type annotated.
+
+#### CI
+
+Github actions are being used to check for formatting errors and run tests.
 
 # TODO:
  - [ ] tests
