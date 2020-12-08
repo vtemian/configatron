@@ -119,7 +119,8 @@ defining a regex used to check if we can build the element from the current line
 #### Testing
 
 Having complex logic for indexing, caching and parsing, I thought that the safest way to test it would be in integration.
-For that, the majority of test cases are parsing and indexing config files, written in temporary files.
+For that, the majority of test cases are parsing and indexing config files, written in temporary files. There are more
+than 110 tests.
 
 #### Style
 
@@ -130,6 +131,4 @@ The codebase is format using `black`, documented and type annotated.
 Github actions are being used to check for formatting errors and run tests.
 
 # TODO:
- - [ ] tests
-   - [ ] unit tests
-   - [ ] performance tests
+- [ ] performance tests
