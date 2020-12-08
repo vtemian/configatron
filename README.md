@@ -44,7 +44,7 @@ We don't allow multiple groups with the same name.
 
 Since we want to be performant and keep the memory footprint as low as possible, we'll be using an LRU cache. The LRU
 cache will store a <group_name> as key, and a tuple (<value>, <expiration>) as value. We keep the expiration as 
-well since some properties can be used really often and wouldn't be evicted from the LRU, thus making impossible to
+well since some properties can be used really often and wouldn't be evicted from the LRU, thus making it impossible to
 update them without a full restart.
 
 When a client wants to access a group or a property, we'll ask the LRU cache if we have that group.
@@ -55,7 +55,7 @@ The file could have been changed, so we'll need to check if the content of that 
 initial index) and the newly computed hash don't match, we'll need to re-index the entire file.
 The same logic occurs if the group or the property is considered expired.
 
-A full index triggers a cache purge as well, since we don't want to have stale data. The cache size and items lifespan
+A full index triggers a cache purge as well since we don't want to have stale data. The cache size and items lifespan
 are configurable, depending on usage.
 
 ### Architecture
@@ -100,14 +100,14 @@ are configurable, depending on usage.
                                                              +---------+
 ```
 
-As a high level architecture, as state previously, the two main components are the `LRUCache` and the `Indexer`.
-The `LRUCache` just holds objects and evict expired or not so often accesed items.
+As a high-level architecture, as state previously, the two main components are the `LRUCache` and the `Indexer`.
+The `LRUCache` just holds objects and evict expired or not so often accessed items.
 The `Indexer` holds the groups and the mean to create and refresh them. It delegates this job to the `Scanner` that
-interacts with `Nodes` (`Groups`, `Property` and `Comments`). It doesn't know how to build it, but it knows their 
+interact with `Nodes` (`Groups`, `Property` and `Comments`). It doesn't know how to build it, but it knows their 
 hierarchy (how groups interacts with properties and comments). `Scanner` doesn't read itself the file content, but it
 uses the `Reader` for that.
 
-Following this structure, is easy to use another medium for file storage (remote/bucket/url/stdin). We just need to 
+Following this structure is easy to use another medium for file storage (remote/bucket/url/stdin). We just need to 
 create a different `Reader` for it. Updating the hierarchy between nodes or adding new node types is fairly easy.
 We just need to adapt the scanner and for each node, describe how it should be parsed.
 
@@ -118,7 +118,7 @@ defining a regex used to check if we can build the element from the current line
 
 #### Testing
 
-Having complex logic for indexing, caching and parsing, I though that the safest way to test it would be in integration.
+Having complex logic for indexing, caching and parsing, I thought that the safest way to test it would be in integration.
 For that, the majority of test cases are parsing and indexing config files, written in temporary files.
 
 #### Style
