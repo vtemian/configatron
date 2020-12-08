@@ -47,10 +47,9 @@ The same logic occurs if the group or the property is considered expired.
  - [ ] implement overrides
  - [ ] documentation
  - [ ] tests
-   - [ ] makefile
+   - [x] makefile
    - [ ] ci/cd
-   - [ ] check formatting
+   - [x] check formatting
    - [x] invalid syntax
    - [x] valid syntax
    - [ ] overrides
- - [ ] example usage within an app

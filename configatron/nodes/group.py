@@ -4,7 +4,7 @@ from ..utils import EmptyConfig
 
 
 class Group:
-    REGEX = re.compile('^\s*\[(?P<name>[a-zA-Z0-9]+)\]\s*(;.*)?$')
+    REGEX = re.compile("^\s*\[(?P<name>[a-zA-Z0-9]+)\]\s*(;.*)?$")
 
     def __init__(self, scanner, name: str, start: int, end: int = None):
         self.name = name

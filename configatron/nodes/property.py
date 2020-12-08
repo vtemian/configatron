@@ -3,11 +3,7 @@ import re
 
 
 def string(value: str):
-    if all([
-        value.startswith("\""),
-        value.endswith("\""),
-        "\"" not in value[1:-1] or "\\\"" in value[1:-1]
-    ]):
+    if all([value.startswith('"'), value.endswith('"'), '"' not in value[1:-1] or '\\"' in value[1:-1]]):
         return value[1:-1]
 
     return
@@ -21,32 +17,30 @@ def path(value: str):
 
 
 def number(value: str):
-    if value.lstrip('-').isdigit():
+    if value.lstrip("-").isdigit():
         return int(value)
 
-    if value.lstrip('-').replace('.', '').isdigit():
+    if value.lstrip("-").replace(".", "").isdigit():
         return float(value)
 
     return None
 
 
 def boolean(value: str):
-    if value in {'yes', 'no', 'true', 'false', "0", "1"}:
-        return value in {'yes', 'true', "1"}
+    if value in {"yes", "no", "true", "false", "0", "1"}:
+        return value in {"yes", "true", "1"}
 
     return None
 
 
 def array(value: str):
-    if "," in value and not value.startswith("\"") and not value.endswith("\""):
+    if "," in value and not value.startswith('"') and not value.endswith('"'):
         return value.split(",")
 
     return None
 
 
-properties = [
-    array, boolean, number, path, string
-]
+properties = [array, boolean, number, path, string]
 
 
 class Property:

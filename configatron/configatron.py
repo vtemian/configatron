@@ -6,10 +6,7 @@ from .nodes.group import Group
 from .utils import EmptyConfig
 
 
-DEFAULT_CACHE_OPTIONS = {
-    "size": 100,
-    "lifespan": 10
-}
+DEFAULT_CACHE_OPTIONS = {"size": 100, "lifespan": 10}
 
 
 class Configatron:
@@ -27,7 +24,7 @@ class Configatron:
 
     def get(self, group_name: str) -> Union[Group, EmptyConfig]:
         # Get group from cache. LRU also handles expired items.
-        group = self.lru.get((group_name, ))  # type: Optional[Group]
+        group = self.lru.get((group_name,))  # type: Optional[Group]
         if group:
             return group
 
@@ -44,6 +41,6 @@ class Configatron:
             if not group:
                 return EmptyConfig()
 
-        self.lru.put((group.name, ), group)
+        self.lru.put((group.name,), group)
 
         return group
