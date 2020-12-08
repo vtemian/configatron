@@ -2,6 +2,7 @@ import os
 import logging
 from typing import Optional
 
+from configatron.errors import ValidationError
 from configatron.nodes.group import Group
 from configatron.reader import Reader
 from configatron.scanner import Scanner
@@ -43,6 +44,9 @@ class Index:
         self.groups_index = {}
 
         for group in self.scanner.groups(validate):
+            if validate and group.name in self.groups_index:
+                raise ValidationError(f"Duplicate group name: {group.name}")
+
             self.groups_index[group.name] = group
 
         self.source_cache_key = os.stat(self.source).st_mtime

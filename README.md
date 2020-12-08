@@ -42,14 +42,15 @@ initial index) and the newly computed hash don't match, we'll need to re-index t
 The same logic occurs if the group or the property is considered expired.
 
 # TODO:
- - [ ] multiple groups with the same name, throw exception
- - [ ] invalid syntax should throw exception 
+ - [x] multiple groups with the same name, throw exception
+ - [x] invalid syntax should throw exception 
  - [ ] implement overrides
  - [ ] documentation
  - [ ] tests
    - [ ] makefile
    - [ ] ci/cd
    - [ ] check formatting
-   - [ ] invalid syntax
+   - [x] invalid syntax
+   - [x] valid syntax
    - [ ] overrides
  - [ ] example usage within an app

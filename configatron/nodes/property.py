@@ -1,3 +1,4 @@
+import os
 import re
 
 
@@ -14,7 +15,7 @@ def string(value: str):
 
 def path(value: str):
     if len(value) > 0 and value[0] == "/":
-        return value
+        return os.path.abspath(value)
 
     return None
 
@@ -49,7 +50,7 @@ properties = [
 
 
 class Property:
-    REGEX = re.compile('^\s*(?P<name>[a-zA-Z_<>-]*)\s*=\s*(?P<value>[a-zA-Z0-9/",]*)\s*(;.*)?$')
+    REGEX = re.compile('^\s*(?P<name>[a-zA-Z_<>-]*)\s*=\s*(?P<value>[a-zA-Z0-9-/,\."]*)\s*(;.*)?$')
 
     def __init__(self, name: str, value: str):
         self.name = name

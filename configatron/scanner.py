@@ -14,7 +14,6 @@ class Scanner:
         current_group = None
 
         for start, end, line in self.reader.lines():
-            print(line)
             if Group.is_valid(line):
                 if current_group:
                     yield current_group
