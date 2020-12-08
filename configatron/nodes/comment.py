@@ -2,7 +2,7 @@ import re
 
 
 class Comment:
-    REGEX = re.compile('^\s*(;.*)?$')
+    REGEX = re.compile('^(\n)|(\s*(;.*)?)$')
 
     @classmethod
     def is_valid(cls, line):

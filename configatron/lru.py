@@ -27,3 +27,6 @@ class LRUCache:
 
         if len(self.cache) > self.capacity:
             self.cache.popitem(last=False)
+
+    def purge(self):
+        self.cache = OrderedDict()

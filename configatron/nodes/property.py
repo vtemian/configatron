@@ -13,7 +13,7 @@ def string(value: str):
 
 
 def path(value: str):
-    if value[0] == "/":
+    if len(value) > 0 and value[0] == "/":
         return value
 
     return None
@@ -49,7 +49,7 @@ properties = [
 
 
 class Property:
-    REGEX = re.compile('^\s*(?P<name>\w*)\s*=\s*(?P<value>[a-zA-Z0-9/",]*)\s*(;.*)?$')
+    REGEX = re.compile('^\s*(?P<name>[a-zA-Z_<>-]*)\s*=\s*(?P<value>[a-zA-Z0-9/",]*)\s*(;.*)?$')
 
     def __init__(self, name: str, value: str):
         self.name = name

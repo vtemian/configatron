@@ -19,8 +19,11 @@ class Configatron:
         if cache_options is None:
             cache_options = DEFAULT_CACHE_OPTIONS
 
-        cache_options = {**DEFAULT_CACHE_OPTIONS, **cache_options}
-        self.lru = LRUCache(cache_options["size"], cache_options["lifespan"])
+        self.cache_options = {**DEFAULT_CACHE_OPTIONS, **cache_options}
+        self.lru = LRUCache(self.cache_options["size"], self.cache_options["lifespan"])
+
+        # build the initial index and validate the config as well
+        self.index.build(True)
 
     def get(self, group_name: str) -> Union[Group, EmptyConfig]:
         # Get group from cache. LRU also handles expired items.
@@ -32,6 +35,9 @@ class Configatron:
         group = self.index.get(group_name)
         if not group or not group.is_fresh:
             self.index.build()
+
+            # Purge the entire cache if the file was re-indexed
+            self.lru.purge()
 
             # If the group was deleted, return an infinite empty dict.
             group = self.index.get(group_name)
