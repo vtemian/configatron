@@ -4,7 +4,7 @@ import os
 class Reader:
     def __init__(self, source: str):
         if not os.path.exists(source):
-            raise RuntimeError(f"Missing {self.source} file")
+            raise RuntimeError(f"Missing {source} file")
 
         self.source = source
 
