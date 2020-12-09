@@ -1,25 +1,88 @@
 configatron
 ===========
 
-Efficient handling of large configuration files.
+`configatron` is a simple Python library that can handle a large configuration file without 
+storing everything in memory. It supports near real-time configuration updates.
 
-## Why?
+## Installation
 
-Handling configuration files can be tricky. Some of those can hit gigabytes in size, their content should be updated in
-real-time or as close as possible to real-time. Those constraints shouldn't affect resource consumption or the 
-performance of the app using this library. The ideal use-case for it is large files, with a small subset of highly used
-keys / groups and rarely changing values.
+Prerequisites:
+  * Python 3.6+
 
-## What?
+###### Private repository
 
-Given the above constraints, `configatron` is a simple Python library that can handle a large configuration file without 
-storing everything in memory. It should also support near real-time configuration updates.
+```bash
+python3 -m pip install https://github.com/vtemian/configatron.git
+```
 
-## How?
+###### Local
+
+```bash
+tar -xzf configaron.tar.gz && cd configatron/
+python3 -m pip -e .
+```
+
+## Usage
+
+Initial file reading won't block.
+
+```python3
+from configatron import Configatron
+
+config = Configatron("/path/to/config")
+config.get("group").get("property")
+```
+
+Specify configuration overrides.
+
+```python3
+config = Configatron("/path/to/config/overrides", ["production", "ubuntu"])
+```
+
+Control LRU cache options.
+
+```python3
+
+cache_options = {
+    "size": 10000,        # number of items in cache, default 10 000 items
+    "lifespan": 60 * 60,  # seconds for each item in cache, default 1h
+}
+config = Configatron("/path/to/config/overrides", cache_options=cache_options)
+```
+
+Don't validate on the initial index (default `True`).
+
+```python3
+config = Configatron("/path/to/config/overrides", validate=False)
+```
+
+## Development
+
+Install development dependencies
+```bash
+pip install -r requirements.dev.txt
+```
+
+Run tests
+```bash
+make tests
+```
+
+Run code format
+```bash
+make fmt
+```
+
+Check for formatting issues
+```bash
+make check-fmt
+```
+
+## Implementation
 
 We'll index all configuration groups, by their name. For each group name, store its position within the file and a hash
 of its content. Further, build an internal cache for groups and properties, as they are being used. Detect changes
-and re-index if necessarily.
+and re-index if necessary.
 
 ```
 [group-1]
@@ -114,6 +177,29 @@ We just need to adapt the scanner and for each node, describe how it should be p
 Right now, each element knows how to build itself. It does that by defining two methods (`is_valid` and `parse`) and
 defining a regex used to check if we can build the element from the current line.
 
+### Alternative considerations and improvements
+
+##### Parsing
+Right now, parsing is done using regex, which is always messy, hard to maintain and understand, can throw hard to
+debug bugs, performance issues, infinite loops etc.
+
+LR parsers can be used in this case. There are known pure Python [libraries](https://wiki.python.org/moin/LanguageParsing)
+that implements those kinds of parsers, well tested and open-source. Building and maintaining grammar is way easier
+than maintaining regular expressions.
+
+Python also has a built-in library that can parse ini files. It's not that efficient since it loads the entire file
+in memory, but some components can be re-used.
+
+##### LRU
+
+The current LRU implementation is from scratch. In production, we can use an open source library since those are 
+already battle tested and more optimized. The current implementation uses an OrderDict, thus making it sub-optimal.
+
+##### <10Mb file sizes
+
+For small size files, we can keep everything in-memory and have an instant access, without a caching mechanism. With a 
+mechanism for on-demand indexing we would re-index the file when asked by our users.
+
 ### Code quality
 
 #### Testing
@@ -129,6 +215,3 @@ The codebase is format using `black`, documented and type annotated.
 #### CI
 
 Github actions are being used to check for formatting errors and run tests.
-
-# TODO:
-- [ ] performance tests
