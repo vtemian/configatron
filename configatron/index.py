@@ -1,4 +1,4 @@
-import os
+import hashlib
 import logging
 from typing import Optional, List
 
@@ -21,12 +21,26 @@ class Index:
 
         self.scanner = Scanner(Reader(source), overrides)
 
+    def _compute_source_key(self) -> str:
+        """
+        Compute a blake2b hash over source's content.
+
+        :return: Source's content hash.
+        """
+        _hash = hashlib.blake2b()
+
+        with open(self.source, "rb") as f:
+            while chunk := f.read(8192):
+                _hash.update(chunk)
+
+        return _hash.hexdigest()
+
     def _should_index(self):
         """
         Indexing the entire file can be really costly. We want to avoid this operation as much as possible.
         """
 
-        return self.source_cache_key != os.stat(self.source).st_mtime
+        return self.source_cache_key != self._compute_source_key()
 
     def build(self, validate: bool = False):
         """
@@ -49,7 +63,7 @@ class Index:
 
             self.groups_index[group.name] = group
 
-        self.source_cache_key = os.stat(self.source).st_mtime
+        self.source_cache_key = self._compute_source_key()
 
     def get(self, group_name: str) -> Optional[Group]:
         """

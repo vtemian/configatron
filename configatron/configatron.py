@@ -16,6 +16,16 @@ class Configatron:
     def __init__(
         self, source: str, overrides: List[str] = None, cache_options: Dict[str, str] = None, validate: bool = True
     ):
+        """
+        Instantiate the two main components: index and LRU cache.
+        Build the initial index and validate the file's syntax.
+
+        :param source: Path to config file.
+        :param overrides: Some properties can be overwritten, based on specific overrides.
+        :param cache_options: Configure cache's size and lifespan.
+        :param validate: Throw exception if the syntax of the config file is not valid.
+        """
+
         if overrides:
             overrides = overrides[::-1]
 
