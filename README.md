@@ -1,7 +1,7 @@
 configatron
 ===========
 
-`configatron` is a simple Python library that can handle a large configuration file without 
+`configatron` is a Python library that can handle a large configuration file without 
 storing everything in memory. It supports near real-time configuration updates.
 
 ## Installation
@@ -126,7 +126,7 @@ are configurable, depending on usage.
 ```
                    +---------------+
                    |               |
-       +-----------+ Configuratron +------------+
+       +-----------+  Configatron  +------------+
        |           |               |            |
        |           +---------------+            |
        |                                        |
@@ -190,12 +190,12 @@ than maintaining regular expressions.
 Python also has a built-in library that can parse ini files. It's not that efficient since it loads the entire file
 in memory, but some components can be re-used.
 
-##### LRU
+#### LRU
 
 The current LRU implementation is from scratch. In production, we can use an open source library since those are 
 already battle tested and more optimized. The current implementation uses an OrderDict, thus making it sub-optimal.
 
-##### <10Mb file sizes
+#### <10Mb file sizes
 
 For small size files, we can keep everything in-memory and have an instant access, without a caching mechanism. With a 
 mechanism for on-demand indexing we would re-index the file when asked by our users.
