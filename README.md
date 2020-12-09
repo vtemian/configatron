@@ -7,7 +7,7 @@ storing everything in memory. It supports near real-time configuration updates.
 ## Installation
 
 Prerequisites:
-  * Python 3.6+
+  * Python 3.8+
 
 ###### Private repository
 
