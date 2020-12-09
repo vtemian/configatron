@@ -19,7 +19,7 @@ python3 -m pip install https://github.com/vtemian/configatron.git
 
 ```bash
 tar -xzf configatron.tar.gz && cd configatron/
-python3 -m pip -e .
+python3 -m pip install -e .
 ```
 
 ## Usage
